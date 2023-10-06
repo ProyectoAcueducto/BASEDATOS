@@ -1,0 +1,115 @@
+-- restablecer base de datos --
+drop database if exists pysop;
+
+-- creacion y uso de la base de datos --
+create database pysop;
+use pysop;
+
+-- creacion de tablas relacionales --
+-- Acueducto --
+create table acueducto (
+nitAcueducto bigint unsigned primary key,
+nombreAcueducto varchar(80) not null, 
+direccionAcueducto varchar(255) not null, 
+correoAcueducto varchar(255) not null, 
+telefonoAcueducto varchar(20) not null,
+idRups int unsigned unique not null,
+consumoBasicoM3 double not null, 
+valorConsumoBasico double not null, 
+valorMetroCubico double not null
+);
+
+-- rol -- 
+create table rol (
+idRol int unsigned auto_increment primary key, 
+descripcionRol varchar(50) not null
+);
+
+-- Usuario --
+create table usuario (
+numDocumento bigint unsigned primary key,
+nombreUsuario varchar(80) not null, 
+apellidoUsuario varchar(80) not null, 
+direccionUsuario varchar(255) not null, 
+correoUsuario varchar(255) not null, 
+telefonoUsuario varchar(20) not null, 
+claveUsuario varchar(50) not null,
+estadoUsuario varchar(30) not null, 
+idRolFK int unsigned, 
+foreign key (idRolFK) references rol (idRol) on delete set null on update cascade
+);
+
+-- Novedad --
+create table novedad(
+idNovedad bigint unsigned auto_increment primary key,
+fechaRegistro date not null, 
+descripcionNovedad varchar(255) not null,
+estadoNovedad varchar(30) not null, 
+tipoNovedad varchar(50),
+detalleDeLaSolucion varchar(500),
+numDocumentoFK bigint unsigned,
+foreign key (numDocumentoFK) references usuario(numDocumento) on delete set null on update cascade
+);
+
+-- Contrato --
+create table contrato (
+idContrato int unsigned auto_increment primary key,
+fechaCreacion date not null, 
+fechaFinalizacion date, 
+numDocumentoFK bigint unsigned,
+foreign key (numDocumentoFK) references usuario(numDocumento) on delete cascade on update cascade
+);
+
+-- Contador -- 
+create table medidor (
+idMedidor int unsigned auto_increment primary key,
+numeroMedidor bigint unsigned not null unique,
+idContratoFK int unsigned,
+foreign key (idContratoFK) references contrato(idContrato) on delete cascade on update cascade
+);
+
+-- Orden de pago --
+create table ordenPago (
+consecutivoOrdenPago int unsigned auto_increment primary key,
+periodoRegistrado varchar(25) not null, 
+lecturaActual int not null, 
+lecturaAnterior int not null, 
+consumoPeriodoM3 double not null,
+valorReconexion double default 0.0,
+totalOrdenPago double not null,
+fechaSuspencion date,
+fechaPagoOportuno date not null,
+correcionOrdenPago bit,
+idContratoFK int unsigned,
+nitAcueductoFk bigint unsigned,
+foreign key (idContratoFK) references contrato(idContrato) on delete cascade on update cascade,
+foreign key (nitAcueductoFK) references acueducto(nitAcueducto) on delete cascade on update cascade
+);
+
+-- Pago --
+create table pago (
+idPago int unsigned auto_increment primary key,
+bancoEntidad varchar(80) not null, 
+formaPago varchar(50) not null, 
+fechaConsignacion date not null,
+numDocumentoFK bigint unsigned,
+consecutivoOrdenPagoFk int unsigned,
+foreign key (numDocumentoFK) references usuario(numDocumento) on delete cascade on update cascade,
+foreign key (consecutivoOrdenPagoFK) references ordenPago(consecutivoOrdenPago) on delete cascade on update cascade
+);
+
+
+-- STORED PROCEDURE
+delimiter //
+create procedure agregarMedidorPorContrato (numMedidor bigint, idContrato int)
+begin
+	insert into medidor values(numMedidor,idContrato);
+end;
+//
+call agregarMedidorPorContrato()
+
+
+
+
+
+
