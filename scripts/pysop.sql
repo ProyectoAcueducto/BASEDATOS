@@ -41,11 +41,11 @@ foreign key (idRolFK) references rol (idRol) on delete set null on update cascad
 
 -- Novedad --
 create table novedad(
-idNovedad bigint unsigned auto_increment primary key,
+idNovedad int unsigned auto_increment primary key,
 fechaRegistro date not null, 
 descripcionNovedad varchar(255) not null,
 estadoNovedad varchar(30) not null, 
-tipoNovedad varchar(50),
+tipoNovedad varchar(50) not null,
 detalleDeLaSolucion varchar(500),
 numDocumentoFK bigint unsigned,
 foreign key (numDocumentoFK) references usuario(numDocumento) on delete set null on update cascade
@@ -71,7 +71,7 @@ foreign key (idContratoFK) references contrato(idContrato) on delete cascade on 
 -- Orden de pago --
 create table ordenPago (
 consecutivoOrdenPago int unsigned auto_increment primary key,
-periodoRegistrado varchar(25) not null, 
+periodoRegistrado varchar(50) not null, 
 lecturaActual int not null, 
 lecturaAnterior int not null, 
 consumoPeriodoM3 double not null,
