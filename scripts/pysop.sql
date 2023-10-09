@@ -56,7 +56,7 @@ create table contrato (
 idContrato int unsigned auto_increment primary key,
 fechaCreacion date not null, 
 fechaFinalizacion date, 
-numDocumentoFK bigint unsigned,
+numDocumentoFK bigint unsigned unique,
 foreign key (numDocumentoFK) references usuario(numDocumento) on delete cascade on update cascade
 );
 
@@ -101,15 +101,14 @@ foreign key (consecutivoOrdenPagoFK) references ordenPago(consecutivoOrdenPago) 
 
 -- STORED PROCEDURE
 delimiter //
-create procedure agregarMedidorPorContrato (numMedidor bigint, idContrato int)
+create procedure psCrearContrato (creacion date, finalizacion date, numDocumento bigint, medidor bigint)
 begin
-	insert into medidor values(numMedidor,idContrato);
+	insert into contrato (fechaCreacion,fechaFinalizacion,numDocumentoFK) values (creacion,finalizacion,numDocumento);
+	set @numContrato = (select idContrato from contrato where numDocumentoFK = numDocumento limit 1);
+	insert into medidor (numeroMedidor,idContratoFK) values(medidor,@numContrato);
 end;
 //
-call agregarMedidorPorContrato()
-
-
-
+-- call psCrearContrato("2023-09-10","2024-09-10", 1022341908,123456789);
 
 
 
