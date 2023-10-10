@@ -110,5 +110,13 @@ end;
 //
 -- call psCrearContrato("2023-09-10","2024-09-10", 1022341908,123456789);
 
-
+-- get contracts
+select c.idContrato, u.numDocumento, concat(u.nombreUsuario,' ',u.apellidoUsuario) as 'Nombre usuario' from contrato as c
+inner join usuario as u on c.numDocumentoFK = u.numDocumento;
+//
+-- get contract by id 
+SELECT contrato.fechaCreacion, contrato.fechaFinalizacion, medidor.numeroMedidor
+FROM contrato
+LEFT JOIN medidor ON contrato.idContrato = medidor.idContratoFK
+WHERE idContratoFK = 11;
 
