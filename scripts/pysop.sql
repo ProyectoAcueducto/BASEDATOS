@@ -115,8 +115,8 @@ select c.idContrato, u.numDocumento, concat(u.nombreUsuario,' ',u.apellidoUsuari
 inner join usuario as u on c.numDocumentoFK = u.numDocumento;
 //
 -- get contract by id 
-SELECT contrato.fechaCreacion, contrato.fechaFinalizacion, medidor.numeroMedidor
-FROM contrato
-LEFT JOIN medidor ON contrato.idContrato = medidor.idContratoFK
-WHERE idContratoFK = 11;
+SELECT c.fechaCreacion, c.fechaFinalizacion, m.numeroMedidor FROM contrato AS c LEFT JOIN medidor AS m ON c.idContrato = m.idContratoFK WHERE idContratoFK = 1;
+//
+select * from contrato;
+select * from medidor;
 
