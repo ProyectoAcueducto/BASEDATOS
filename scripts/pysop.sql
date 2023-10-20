@@ -93,7 +93,7 @@ bancoEntidad varchar(80) not null,
 formaPago varchar(50) not null, 
 fechaConsignacion date not null,
 numDocumentoFK bigint unsigned,
-consecutivoOrdenPagoFk int unsigned,
+consecutivoOrdenPagoFk int unsigned unique,
 foreign key (numDocumentoFK) references usuario(numDocumento) on delete cascade on update cascade,
 foreign key (consecutivoOrdenPagoFK) references ordenPago(consecutivoOrdenPago) on delete cascade on update cascade
 );
