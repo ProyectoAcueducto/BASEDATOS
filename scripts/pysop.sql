@@ -98,6 +98,9 @@ foreign key (numDocumentoFK) references usuario(numDocumento) on delete cascade 
 foreign key (consecutivoOrdenPagoFK) references ordenPago(consecutivoOrdenPago) on delete cascade on update cascade
 );
 
+-- inserciones a tabla rol 
+insert into rol values(1,'administrador');
+insert into rol values(2,'afiliado');
 
 -- STORED PROCEDURE
 delimiter //
