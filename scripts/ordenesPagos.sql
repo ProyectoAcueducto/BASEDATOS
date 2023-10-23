@@ -16,6 +16,29 @@ from ordenpago as op inner join contrato as c on op.idContratoFK = c.idContrato
 inner join usuario as u on c.numDocumentoFK = u.numDocumento;
 select * from buscarOrdenesPago;
 
+-- procedures stores
+delimiter //
+create procedure psBuscarOrdenePagoById (in consecutivo int)
+begin
+	select op.consecutivoOrdenPago, u.numDocumento, op.lecturaAnterior, op.lecturaActual, op.valorReconexion, op.periodoRegistrado, op.fechaPagoOportuno, op.fechaSuspencion,
+	op.consumoPeriodoM3, op.totalOrdenPago
+	from ordenpago as op inner join contrato as c on op.idContratoFK = c.idContrato
+	inner join usuario as u on c.numDocumentoFK = u.numDocumento
+	where op.consecutivoOrdenPago = consecutivo;
+end;//
+-- call psBuscarOrdenePagoById(5);
 
-
-
+select * from ordenpago; 
+//
+delimiter //
+create procedure psActualizarOrdenPago (consecutivo int, lecAnterior int, lecActual int, reconexion double, periodo varchar(50), pagoOportuno date,
+fechaCorte date, consumoM3 double, totalOrden double)
+begin
+	-- consumom3 * valorm3 + reconexion
+    set @valorM3 = (select valorMetroCubico from acueducto);
+    set @total = (consumoM3 * @valorM3) + reconexion;
+    UPDATE ordenpago SET consecutivoOrdenPago = consecutivo, periodoRegistrado = periodo, lecturaActual = lecActual, lecturaAnterior = lecAnterior,
+    consumoPeriodoM3 = consumoM3, valorReconexion = reconexion, totalOrdenPago = @total, fechaSuspencion = fechaCorte, fechaPagoOportuno = pagoOportuno, correcionOrdenPago = 1
+	WHERE consecutivoOrdenPago = consecutivo;
+end;//
+-- call psActualizarOrdenPago(5,2100,2600,3000,'mayo-junio','2023-12-05','2023-12-10',80,100000);
