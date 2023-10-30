@@ -28,8 +28,6 @@ begin
 end;//
 -- call psBuscarOrdenePagoById(5);
 
-select * from ordenpago; 
-//
 delimiter //
 create procedure psActualizarOrdenPago (consecutivo int, lecAnterior int, lecActual int, reconexion double, periodo varchar(50), pagoOportuno date,
 fechaCorte date, consumoM3 double, totalOrden double)
@@ -42,3 +40,5 @@ begin
 	WHERE consecutivoOrdenPago = consecutivo;
 end;//
 -- call psActualizarOrdenPago(5,2100,2600,3000,'mayo-junio','2023-12-05','2023-12-10',80,100000);
+
+select correcionOrdenPago from ordenpago where consecutivoOrdenPago = 1;
