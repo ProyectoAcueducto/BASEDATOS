@@ -1,4 +1,4 @@
-
+-- 
 -- inserciones 
 INSERT INTO `pysop`.`ordenpago` (`periodoRegistrado`, `lecturaActual`, `lecturaAnterior`, `consumoPeriodoM3`, `valorReconexion`, `totalOrdenPago`, `fechaPagoOportuno`, `idContratoFK`, `nitAcueductoFk`) VALUES ('enero-febrero', '3002', '2994', '25', '0', '25000', '2023-11-02', '2', '9000215353');
 INSERT INTO `pysop`.`ordenpago` (`periodoRegistrado`, `lecturaActual`, `lecturaAnterior`, `consumoPeriodoM3`, `valorReconexion`, `totalOrdenPago`, `fechaPagoOportuno`, `idContratoFK`, `nitAcueductoFk`) VALUES ('marzo-abril', '4250', '4000', '250', '0', '250000', '2023-11-05', '3', '9000215353');
