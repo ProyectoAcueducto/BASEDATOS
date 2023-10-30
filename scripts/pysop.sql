@@ -1,5 +1,5 @@
 -- restablecer base de datos --
-drop database if exists pysop;
+-- drop database if exists pysop;
 
 -- creacion y uso de la base de datos --
 create database pysop;
