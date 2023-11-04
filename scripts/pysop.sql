@@ -112,7 +112,13 @@ begin
 end;
 //
 -- call psCrearContrato("2023-09-10","2024-09-10", 1022341908,123456789);
+delimiter //
+create procedure psActualizarMedidor (in codMedidor int, in numMedidor bigint)
+begin
+	update medidor set numeroMedidor = numMedidor where idMedidor = codMedidor;
+end;//
 
+call psActualizarMedidor(3, 918316);
 -- get contracts
 select c.idContrato, u.numDocumento, concat(u.nombreUsuario,' ',u.apellidoUsuario) as 'Nombre usuario' from contrato as c
 inner join usuario as u on c.numDocumentoFK = u.numDocumento;
